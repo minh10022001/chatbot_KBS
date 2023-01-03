@@ -119,10 +119,11 @@ class ChatApplication:
     def _bot_reply(self, msg):
         msg2 = f"\n{self.bot_name}: {self.chat.get_response(msg)}\n\n"
         ops = self.chat.get_option(msg)  
-
+        print(ops)
         self.text_widget.configure(state=NORMAL)
         self.text_widget.insert(END, msg2)
-        self._show_option(ops)
+        if len(ops)>0:
+            self._show_option(ops)
         self.text_widget.configure(state=DISABLED)     
         self.text_widget.see(END)   
         

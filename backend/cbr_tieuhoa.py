@@ -3,7 +3,7 @@ import pandas as pd
 import mysql.connector
 from classInput import Input
 
-db =  mysql.connector.connect(user = 'root', database = 'kbs_db', passwd= '12345678')
+db =  mysql.connector.connect(user = 'root', database = 'kbs_db', passwd= '10022001')
 
 class TuVan():
     def __init__(self ):
@@ -52,7 +52,7 @@ class TuVan():
             return 'Error'
         else:
             self.list_error = []
-            if input_user!='Tiếp tục' and input_user !='Kết thúc':
+            if input_user!='Tiếp tục' and input_user !='Dừng':
                 
                 if self.new_turn== False:
                     dict_trieuchungbenh_dangXet = self.get_TrieuChungBenh_đangXet()
@@ -106,7 +106,7 @@ class TuVan():
                 self.id_question = self.list_id_question[-1]
                 return input_user
       
-            elif input_user=='Kết thúc':
+            elif input_user=='Dừng':
                     self.finish_turn()
                     return 'Error'
             else:
@@ -123,7 +123,7 @@ class TuVan():
             list_answer = list(self.df_trieuChung[self.df_trieuChung['idCauHoi'].str.upper()==self.id_question]['ten'])
             self.list_option = list_answer
         else:
-            self.list_option = ['Tiếp tục', 'Kết thúc']
+            self.list_option = ['Tiếp tục', 'Dừng']
         
     def get_cauHoi(self):
         if(self.id_question!='Q_error'):
@@ -210,6 +210,8 @@ class TuVan():
         for i in range(df.shape[0]):
             if df['idTrieuChung'].iloc[i]  in list_id_trieuchung_daXet:
                 df1.drop(df1[df1['idTrieuChung']==df['idTrieuChung'].iloc[i]].index.values[0], axis=0, inplace=True)
+                if i== df.shape:
+                    result_heso = max(list(df1['trongSo']))
             else:
                 result_heso = max(list(df1['trongSo']))
         id_trieuChung_quantrong = list(df1[df1['trongSo']==result_heso]['idTrieuChung'])[0]
