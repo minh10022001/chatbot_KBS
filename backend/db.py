@@ -4,7 +4,7 @@ from sqlalchemy import text
 import pandas as pd
 
 database_username = 'root'
-database_password = '10022001'
+database_password = '12345678'
 database_ip       = 'localhost'
 database_name     = 'kbs_db'
 database_connection = sqlalchemy.create_engine('mysql+mysqlconnector://{0}:{1}@{2}/{3}'.

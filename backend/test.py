@@ -1,3 +1,2 @@
-input_user = input("[USER]: ")
-
-print(input_user)
+import pickle 
+print(pickle.format_version)

@@ -78,16 +78,16 @@ class Input():
         if flat == False:
             return None
           #load model naive_bayes.GaussianNB
-        filename = 'C:/Users/Admin/Downloads/kbs_chatbot-main/kbs_chatbot-main/backend/kbs.sav'
+        filename = 'backend/kbs.sav'
         loaded_model = pickle.load(open(filename, 'rb'))
         #load svd - giảm chiều 
-        filename = 'C:/Users/Admin/Downloads/kbs_chatbot-main/kbs_chatbot-main/backend/svd.sav'
+        filename = 'backend/svd.sav'
         svd = pickle.load(open(filename, 'rb'))
         #load tfidf 
-        filename = 'C:/Users/Admin/Downloads/kbs_chatbot-main/kbs_chatbot-main/backend/tfidf.sav'
+        filename = 'backend/tfidf.sav'
         tfidf = pickle.load(open(filename, 'rb'))
         #load labelencoder
-        filename = 'C:/Users/Admin/Downloads/kbs_chatbot-main/kbs_chatbot-main/backend/label.sav'
+        filename = 'backend/label.sav'
         labelencoder = pickle.load(open(filename, 'rb'))
         label = labelencoder.classes_
         input_model = question + " " + input_user

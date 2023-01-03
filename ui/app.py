@@ -19,7 +19,10 @@ class ChatApplication:
     def __init__(self):
         self.window = Tk()
         self.bot_name = "Sam"
+        self.list_option_buton=[]
+        self.quit_button = Button()
         self._setup_main_window()
+
         
     def run(self):
         self.window.mainloop()
@@ -43,7 +46,7 @@ class ChatApplication:
         
         # head label
         head_label = Label(self.window, bg=BG_COLOR, fg=TEXT_COLOR,
-                           text="Welcome", font=FONT_BOLD, pady=10)
+                           text="Hệ Thống Tư Vấn Bệnh Tiêu Hóa", font=FONT_BOLD, pady=10)
         head_label.place(relwidth=1)
         
         # tiny divider
@@ -90,6 +93,7 @@ class ChatApplication:
                             highlightcolor = '#f2ba9c',
                             justify= LEFT,
                             command= lambda op=op :self._select_option(op))
+            self.list_option_buton.append(option_button)
             self.text_widget.window_create("end", window=option_button)
             self.text_widget.insert(END,"\n")     
      
@@ -115,7 +119,7 @@ class ChatApplication:
     def _bot_reply(self, msg):
         msg2 = f"\n{self.bot_name}: {self.chat.get_response(msg)}\n\n"
         ops = self.chat.get_option(msg)  
-       
+
         self.text_widget.configure(state=NORMAL)
         self.text_widget.insert(END, msg2)
         self._show_option(ops)
@@ -126,31 +130,36 @@ class ChatApplication:
 
 
     
-    # def _select_option(self, op):
-    #     self.chat.list_question['type'] = op
-    #     if(op == 'Xem thông tin các bệnh'):
-    #         self._insert_message(op, "\nYou")
-    #         self._show_option(self.chat.get_list_disease())
-    #     else:
-    #         #tu van theo trieu chung tai day
-    #         pass
-        
+
     def _show_option(self, ops):
         #danh sach cac lua chon
         # ops = ['A','B','C']  
-        
+        self.list_option_buton = []
         for op in ops:
             option_button = Button(text = op, width = 30, 
                             activebackground = '#d88a6c',
                             highlightcolor = '#f2ba9c',
                             justify= LEFT,
                             command= lambda op=op :self._select_option(op))
+            self.list_option_buton.append(option_button)
             self.text_widget.window_create("end", window=option_button)
             self.text_widget.insert(END,"\n")
+        self.quit_button = Button(text = "Kết thúc", width = 30, 
+                        activebackground = '#d88a6c',
+                        highlightcolor = '#f2ba9c',
+                        justify= LEFT,
+                        command= lambda op=op :self.window.destroy())
+        self.text_widget.window_create("end", window=self.quit_button)
+        self.text_widget.insert(END,"\n")            
     
     def _select_option(self, op):
         self._insert_message(op, "\nYou")
-        pass
+        for button in self.list_option_buton:
+            if button["state"] == NORMAL:
+                button['state'] = DISABLED
+        if self.quit_button["state"] == NORMAL:
+            self.quit_button['state'] = DISABLED
+        
         
 
 if __name__ == "__main__":

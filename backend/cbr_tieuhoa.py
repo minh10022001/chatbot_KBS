@@ -3,7 +3,7 @@ import pandas as pd
 import mysql.connector
 from classInput import Input
 
-db =  mysql.connector.connect(user = 'root', database = 'kbs_db', passwd= '10022001')
+db =  mysql.connector.connect(user = 'root', database = 'kbs_db', passwd= '12345678')
 
 class TuVan():
     def __init__(self ):
