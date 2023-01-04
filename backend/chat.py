@@ -28,10 +28,8 @@ class Chat():
     def xu_li_tu_van(self, msg):
         list_answer = []
         if msg == "Tư vấn bệnh":
-            print("AAAAAAAAAAAAAAAA" ,self.tv.id_question)
             self.tv.get_cauHoi()
-            print('jshdjkshdkshdkhsdkshds',self.tv.cauHoi)
-            self.list_question["benh"] = msg
+            # self.list_question["benh"] = msg
             self.tv.get_list_answer()
             list_answer = self.tv.list_option
         elif msg =='Dừng':
@@ -75,10 +73,10 @@ class Chat():
         ops = []
 
         # if msg == 'Xem thông tin các bệnh' and self.pick == 0:
-        if msg == 'Xem thông tin các bệnh' and self.pick == 0:
+        if msg == 'Xem thông tin các bệnh' and self.tv.new_turn ==True:
             self.list_question['type'] = msg
             ops= list(self.get_list_disease()['ten'])
-            self.pick = 1
+            # self.pick = 1
             return ops
         elif msg == 'Tư vấn bệnh':
             # print("tuvan")
@@ -101,10 +99,19 @@ class Chat():
     
     def get_response(self, msg):
         #truyen vao input la cau tra loi
-        if msg == 'Xem thông tin các bệnh' and self.pick==0:
+        if msg == 'Xem thông tin các bệnh' and self.pick==0 and self.tv.new_turn ==True: 
             self.pick=1
             self.list_question['type'] = msg
             return "Xem thông tin các bệnh sau"
+        elif msg == "Tư vấn bệnh":
+            self.pick =1
+            self.list_question['type'] = msg
+            self.tv.finish_turn()
+            self.tv.start_turn()
+            self.tv.get_cauHoi()
+            cauhoi = self.tv.cauHoi 
+            print ('ấksjkaslas', cauhoi)
+            return cauhoi
         elif self.list_question["type"] == 'Xem thông tin các bệnh' and self.list_question["benh"] != "":
             df = self.get_list_disease()
             df = df[df['ten'] == self.list_question["benh"]]
@@ -116,17 +123,9 @@ class Chat():
                 return self.split_text(df['nguyenNhan'].values[0])
             elif msg == "Cách phòng ngừa":
                 return self.split_text(df['nganNgua'].values[0])            
-        elif msg == "Tư vấn bệnh":
-            self.pick =1
-           
-            self.tv.finish_turn()
-            self.tv.start_turn()
-            self.tv.get_cauHoi()
-            cauhoi = self.tv.cauHoi 
-            print ('ấksjkaslas', cauhoi)
-            return cauhoi
+        
         # elif  self.list_question["type"] == 'Tư vấn bệnh' and self.list_question["benh"] != "":
-        elif  self.list_question["type"] == 'Tư vấn bệnh' and self.list_question["benh"] != "":
+        elif  self.list_question["type"] == 'Tư vấn bệnh' :
             chuanDoan = self.tv.process(msg)
             print (chuanDoan)
             # if self.tv.id_question!='Q_error' :
