@@ -3,7 +3,7 @@ import pandas as pd
 import mysql.connector
 from classInput import Input
 
-db =  mysql.connector.connect(user = 'root', database = 'kbs_db', passwd= '10022001')
+db =  mysql.connector.connect(user = 'root', database = 'kbs_db', passwd= '12345678')
 
 class TuVan():
     def __init__(self ):
@@ -221,19 +221,31 @@ class TuVan():
     def get_idcauHoi_by_idTrieuChung(self,idTrieuChung):
         self.id_question= self.df_trieuChung[self.df_trieuChung['id']==idTrieuChung]['idCauHoi'].values[0]
         
-
+    def handle_list_return(self, list_return:list):
+        result = ""
+        for item in list_return:
+            result += "\n"+"- "+item 
+        return result
+    
+    def get_advise_by_idBenh(self,benhId:str):
+        result = ""
+        result += ". Bạn nên:\n"
+        result += self.handle_list_return(self.df_benh[self.df_benh['id']==benhId]['nganNgua'].values[0].split("|"))
+        return result   
+    
     def get_chuanDoan(self,dict_allCBR):
         chuanDoan = None
-    
+        advise = ""
         if len(self.list_id_question)==16:
             max_cbr = max(list(dict_allCBR.values()))
             self.finish_turn()
 
             if(max_cbr<0.5):
-                chuanDoan = '[CHATBOT]: Chưa đủ các triệu chứng rõ ràng để chatbot chuẩn đoán bệnh cho bạn trong phạm vi của chúng tôi' 
+                chuanDoan = 'Chưa đủ các triệu chứng rõ ràng để chatbot chuẩn đoán bệnh cho bạn trong phạm vi của chúng tôi' 
             else:
                 id_benhChuanDoan = self.tim_idbenh_nghiNgo(dict_allCBR)
-                chuanDoan = '[CHATBOT:]' +'Bạn đang có dấu hiệu của bệnh'+ str(list(self.df_benh['ten'].values)[0])
+                advise = self.get_advise_by_idBenh(id_benhChuanDoan)
+                chuanDoan = 'Bạn đang có dấu hiệu của bệnh'+ str(list(self.df_benh['ten'].values)[0]) + advise
               
         elif len(self.list_id_question)<=16:
             max_cbr = max(list(dict_allCBR.values()))
@@ -245,8 +257,10 @@ class TuVan():
                 
             else:
                 id_benhChuanDoan = self.tim_idbenh_nghiNgo(dict_allCBR)
-                chuanDoan = '[CHATBOT:]' +'Bạn đang có dấu hiệu của '+ str(list(self.df_benh[self.df_benh['id']==id_benhChuanDoan]['ten'].values)[0])
+                advise = self.get_advise_by_idBenh(id_benhChuanDoan)
+                chuanDoan = 'Bạn đang có dấu hiệu của '+ str(list(self.df_benh[self.df_benh['id']==id_benhChuanDoan]['ten'].values)[0]) + advise
                 self.finish_turn()
+        
         return  chuanDoan
 
 

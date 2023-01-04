@@ -4,7 +4,7 @@ from sqlalchemy import text
 import pandas as pd
 
 database_username = 'root'
-database_password = '10022001'
+database_password = '12345678'
 database_ip       = 'localhost'
 database_name     = 'kbs_db'
 database_connection = sqlalchemy.create_engine('mysql+mysqlconnector://{0}:{1}@{2}/{3}'.
@@ -29,6 +29,14 @@ def get_id_benh_by_trieu_chung(trieu_chung):
     return results
     # df = pd.read_sql_query(query, database_connection)
     # return df
+    
+def get_cach_phong_ngua_by_benh(benhid: str):
+    benhid = benhid.upper()
+    query = "select benh.nganNgua\
+                from benh\
+                where benh.id = '%{}*'".format(benhid)
+    result = database_connection.execute(text(query))
+    return result
 
 def get_trieu_chung_by_benh(benhid: str):
     benhid = benhid.upper()

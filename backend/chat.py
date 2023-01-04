@@ -112,6 +112,7 @@ class Chat():
         print(ops)
         return ops
     
+    
     def get_response(self, msg):
         #truyen vao input la cau tra loi
         df_disease = self.get_list_disease()
@@ -134,7 +135,6 @@ class Chat():
             self.tv.start_turn()
             self.tv.get_cauHoi()
             cauhoi = self.tv.cauHoi 
-            print ('ấksjkaslas', cauhoi)
             return cauhoi
         elif self.list_question["type"] == 'Xem thông tin các bệnh' and self.list_question["benh"] != "" and msg in self.list_option:
             df = self.get_list_disease()
