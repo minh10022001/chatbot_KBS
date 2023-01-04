@@ -160,6 +160,9 @@ class Chat():
            
             print(self.tv.id_question)
             print(self.tv.dict_cbr)
+            dict_allCBR = self.tv.get_diemCBR_AllTrieuChung_daXet()
+            max_cbr = max(list(dict_allCBR.values()))
+            print("-----HHIHIHIHI  ",max_cbr)
             print("Message: ", msg)
             print(self.tv.list_id_question)
             self.tv.get_cauHoi()

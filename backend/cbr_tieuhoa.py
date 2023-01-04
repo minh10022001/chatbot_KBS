@@ -3,7 +3,7 @@ import pandas as pd
 import mysql.connector
 from classInput import Input
 
-db =  mysql.connector.connect(user = 'root', database = 'kbs_db', passwd= '10022001')
+db =  mysql.connector.connect(user = 'root', database = 'kbs_db1', passwd= '10022001')
 
 class TuVan():
     def __init__(self ):
@@ -229,7 +229,7 @@ class TuVan():
             max_cbr = max(list(dict_allCBR.values()))
             self.finish_turn()
 
-            if(max_cbr<0.5):
+            if(max_cbr<0.60):
                 chuanDoan = '[CHATBOT]: Chưa đủ các triệu chứng rõ ràng để chatbot chuẩn đoán bệnh cho bạn trong phạm vi của chúng tôi' 
             else:
                 id_benhChuanDoan = self.tim_idbenh_nghiNgo(dict_allCBR)
@@ -237,7 +237,7 @@ class TuVan():
               
         elif len(self.list_id_question)<=16:
             max_cbr = max(list(dict_allCBR.values()))
-            if max_cbr<0.5:
+            if max_cbr<0.60:
                 self.new_turn = False
                 chuanDoan = None
                 # if self.id_question != 'Q1':

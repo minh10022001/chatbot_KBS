@@ -6,7 +6,7 @@ import pandas as pd
 database_username = 'root'
 database_password = '10022001'
 database_ip       = 'localhost'
-database_name     = 'kbs_db'
+database_name     = 'kbs_db1'
 database_connection = sqlalchemy.create_engine('mysql+mysqlconnector://{0}:{1}@{2}/{3}'.
                                                format(database_username, database_password, 
                                                       database_ip, database_name))
