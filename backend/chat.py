@@ -10,6 +10,11 @@ class Chat():
         self.pick = 0
         self.tv = TuVan()
     
+    def reset(self):
+        self.list_question = {"type":"","benh":"","question":[]}
+        self.list_option= ["Mô tả","Triệu chứng", "Nguyên nhân", "Cách phòng ngừa"]
+        self.pick = 0
+        self.tv = TuVan()
     def hello(self):
         ops =[]
         ops.append("Xem thông tin các bệnh")
@@ -71,9 +76,11 @@ class Chat():
     def get_option(self, msg):
         #truyen vao input la cau tra loi
         ops = []
+        df_disease = self.get_list_disease()
+        list_disease = df_disease['ten'].values
 
         # if msg == 'Xem thông tin các bệnh' and self.pick == 0:
-        if msg == 'Xem thông tin các bệnh' and self.tv.new_turn ==True:
+        if msg == 'Xem thông tin các bệnh' and self.tv.new_turn ==True :
             self.list_question['type'] = msg
             ops= list(self.get_list_disease()['ten'])
             # self.pick = 1
@@ -87,7 +94,15 @@ class Chat():
             ops = self.xu_li_tu_van(msg)
             print(ops)
             return ops
-        
+        elif  msg in list_disease and self.list_question['type'] == 'Xem thông tin các bệnh':
+            ops = self.xu_li_xem_thong_tin(msg)
+            return ops
+        elif msg in self.list_option and self.list_question['type'] == 'Xem thông tin các bệnh':
+            return self.list_option
+        elif msg != 'Xem thông tin các bệnh' and msg != "Tư vấn bệnh" and self.tv.new_turn ==True and msg!='Dừng':
+            ops = self.hello()
+            return ops
+         
         if self.list_question["type"] == "Xem thông tin các bệnh":
             ops = self.xu_li_xem_thong_tin(msg)
         elif self.list_question["type"] == "Tư vấn bệnh":
@@ -99,8 +114,17 @@ class Chat():
     
     def get_response(self, msg):
         #truyen vao input la cau tra loi
-        if msg == 'Xem thông tin các bệnh' and self.pick==0 and self.tv.new_turn ==True: 
+        df_disease = self.get_list_disease()
+        list_disease = df_disease['ten'].values
+        if  msg in list_disease  and self.list_question['type'] == 'Xem thông tin các bệnh':
+            if msg in list_disease:
+                self.list_question['benh'] =msg
+                return "Hãy chọn các lựa chon sau về "+msg
+            
+       
+        elif msg == 'Xem thông tin các bệnh' and self.pick==0 and self.tv.new_turn ==True: 
             self.pick=1
+            self.list_question['benh'] =[]
             self.list_question['type'] = msg
             return "Xem thông tin các bệnh sau"
         elif msg == "Tư vấn bệnh":
@@ -112,7 +136,7 @@ class Chat():
             cauhoi = self.tv.cauHoi 
             print ('ấksjkaslas', cauhoi)
             return cauhoi
-        elif self.list_question["type"] == 'Xem thông tin các bệnh' and self.list_question["benh"] != "":
+        elif self.list_question["type"] == 'Xem thông tin các bệnh' and self.list_question["benh"] != "" and msg in self.list_option:
             df = self.get_list_disease()
             df = df[df['ten'] == self.list_question["benh"]]
             if msg == "Mô tả":
@@ -123,7 +147,9 @@ class Chat():
                 return self.split_text(df['nguyenNhan'].values[0])
             elif msg == "Cách phòng ngừa":
                 return self.split_text(df['nganNgua'].values[0])            
-        
+        elif msg != 'Xem thông tin các bệnh' and msg != "Tư vấn bệnh" and self.tv.new_turn ==True and msg!='Dừng':
+            self.reset()
+            return "Chào bạn, mình là Sam - chuyên gia tiêu hóa của bạn. Hãy lựa chọn các hỗ trợ sau"
         # elif  self.list_question["type"] == 'Tư vấn bệnh' and self.list_question["benh"] != "":
         elif  self.list_question["type"] == 'Tư vấn bệnh' :
             chuanDoan = self.tv.process(msg)

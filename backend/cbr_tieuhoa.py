@@ -129,7 +129,7 @@ class TuVan():
         if(self.id_question!='Q_error'):
             self.cauHoi = self.df_cauHoi[self.df_cauHoi['id']==self.id_question]['noiDung'].values[0]
         else:
-            self.cauHoi = 'Chatbot không hiểu. Vui lòng lựa chọn lại . Bạn có muốn tiếp tục ?'
+            self.cauHoi = 'Chatbot không hiểu. Vui lòng lựa chọn lại . Bạn có muốn tiếp tục tư vấn ?'
     #LÂY ID TRIỆU CHỨNG BỞI INPUT
     def get_idTrieuCHung_user(self,input_user):
         id_trieuchung = list(self.df_trieuChung[self.df_trieuChung['ten']==input_user]['id'].values)[0]
