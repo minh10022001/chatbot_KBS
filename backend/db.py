@@ -29,6 +29,14 @@ def get_id_benh_by_trieu_chung(trieu_chung):
     return results
     # df = pd.read_sql_query(query, database_connection)
     # return df
+    
+def get_cach_phong_ngua_by_benh(benhid: str):
+    benhid = benhid.upper()
+    query = "select benh.nganNgua\
+                from benh\
+                where benh.id = '%{}*'".format(benhid)
+    result = database_connection.execute(text(query))
+    return result
 
 def get_trieu_chung_by_benh(benhid: str):
     benhid = benhid.upper()

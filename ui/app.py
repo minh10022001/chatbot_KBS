@@ -42,7 +42,7 @@ class ChatApplication:
     def _setup_main_window(self):
         self.window.title("Chat")
         self.window.resizable(width=False, height=False)
-        self.window.configure(width=490, height=600, bg=BG_COLOR, pady=5)
+        self.window.configure(width=600, height=800, bg=BG_COLOR, pady=5)
         
         # head label
         head_label = Label(self.window, bg=BG_COLOR, fg=TEXT_COLOR,
@@ -144,14 +144,7 @@ class ChatApplication:
                             command= lambda op=op :self._select_option(op))
             self.list_option_buton.append(option_button)
             self.text_widget.window_create("end", window=option_button)
-            self.text_widget.insert(END,"\n")
-        self.quit_button = Button(text = "Kết thúc", width = 30, 
-                        activebackground = '#d88a6c',
-                        highlightcolor = '#f2ba9c',
-                        justify= LEFT,
-                        command= lambda op=op :self.window.destroy())
-        self.text_widget.window_create("end", window=self.quit_button)
-        self.text_widget.insert(END,"\n")            
+            self.text_widget.insert(END,"\n")        
     
     def _select_option(self, op):
         self._insert_message(op, "\nYou")
